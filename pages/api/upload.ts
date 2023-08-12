@@ -23,11 +23,12 @@ const handler = async (
     const { fields, files } = await parseForm(req);
 
     const file = files.media;
+		
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
 
     res.status(200).json({
       data: {
-        url,
+        cronjobId:0,
       },
       error: null,
     });
