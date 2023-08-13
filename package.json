@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "colors": "^1.4.0",
     "date-fns": "^2.28.0",
     "decompress": "^4.2.1",
+    "diff": "^5.1.0",
     "formidable": "^2.0.1",
     "near-api-js": "^2.1.4",
     "next": "12.1.6",
