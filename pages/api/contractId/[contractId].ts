@@ -43,5 +43,3 @@ if (fs.existsSync(dir)) {
   // User with id exists
   
 }
-
-

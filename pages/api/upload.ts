@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { parseForm, FormidableError } from "../../lib/parse-form";
+import { exec } from "child_process";
 
 const handler = async (
   req: NextApiRequest,
@@ -20,7 +21,21 @@ const handler = async (
   }
   // Just after the "Method Not Allowed" code
   try {
-    const { fields, files } = await parseForm(req);
+    const { fields , files } = await parseForm(req);
+		console.log(__dirname);
+		exec(`node complie.js ${req.query.contractId}`, {
+			cwd: ''
+		}, function(error, stdout, stderr) {
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+			}
+
+			console.log(`Output: ${stdout}`);
+		});
 
     const file = files.media;
 		
@@ -28,7 +43,7 @@ const handler = async (
 
     res.status(200).json({
       data: {
-        cronjobId:0,
+        status:"uploaded",
       },
       error: null,
     });
