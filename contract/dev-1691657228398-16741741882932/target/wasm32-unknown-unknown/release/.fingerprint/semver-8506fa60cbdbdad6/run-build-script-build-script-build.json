@@ -1,0 +1,1 @@
+{"rustc":13782479574610989673,"features":"","target":0,"profile":0,"path":0,"deps":[[8370833984941964102,"build_script_build",false,11139948362500326794]],"local":[{"RerunIfChanged":{"output":"wasm32-unknown-unknown/release/build/semver-8506fa60cbdbdad6/output","paths":["build.rs"]}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}
