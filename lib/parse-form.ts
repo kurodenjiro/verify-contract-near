@@ -4,14 +4,13 @@ import * as dateFn from "date-fns";
 import formidable from "formidable";
 import { mkdir, stat } from "fs/promises";
 import path from "path";
-
+import exec from "child_process";
 export const FormidableError = formidable.errors.FormidableError;
 
 export const parseForm = async (
   req: NextApiRequest
 ): Promise<{ fields: formidable.Fields; files: formidable.Files }> => {
   return await new Promise(async (resolve, reject) => {
-		console.log();
     const uploadDir = join(
       process.env.ROOT_DIR || process.cwd(),
       `/contract/${req.query.contractId}`

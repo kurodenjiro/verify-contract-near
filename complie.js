@@ -15,9 +15,7 @@ var args = process.argv.slice(2);
 
 const contractId = args[0]
 
-let rustup = 'rustup target add wasm32-unknown-unknown';
-let cargo = 'cargo build --all --target wasm32-unknown-unknown --release';
-let abi = 'cargo near abi';
+
 
 const network = {
 	networkId: "testnet",
@@ -31,17 +29,22 @@ const provider = new providers.JsonRpcProvider({
 	url: network.nodeUrl
 });
 
-const pathSource = `../../../contract/${contractId}/source-contract.zip`
+const pathSource = `./contract/${contractId}/source-contract.zip`
 
+let checkSource = 0;
 if (fs.existsSync(pathSource)) {
-	decompress(pathSource, `../../../contract/${contractId}/`)
+	decompress(pathSource, `./contract/${contractId}/`)
 		.then((files) => {
-			fs.writeFileSync(`../../../contract/${contractId}/verify.json`, JSON.stringify({status:'checking'}));
-			if (fs.existsSync(`../../../contract/${contractId}/Cargo.toml`)) {
-				const config = toml.parse(fs.readFileSync(`../../../contract/${contractId}/Cargo.toml`, 'utf-8'));
+			fs.writeFileSync(`./contract/${contractId}/verify.json`, JSON.stringify({status:'checking'}));
+			if (fs.existsSync(`./contract/${contractId}/Cargo.toml`)) {
+				checkSource+=1;
+				const config = toml.parse(fs.readFileSync(`./contract/${contractId}/Cargo.toml`, 'utf-8'));
 				const package = config.package;
+				const rustup = 'rustup target add wasm32-unknown-unknown';
+				const cargo = 'cargo build --all --target wasm32-unknown-unknown --release';
+				const abi = 'cargo near abi';
 				exec(` ${rustup} && ${cargo} && ${abi}`, {
-					cwd: `../../../contract/${contractId}/`
+					cwd: `./contract/${contractId}/`
 				}, function(error, stdout, stderr) {
 					if (error) {
 						console.log(`error: ${error.message}`);
@@ -49,8 +52,7 @@ if (fs.existsSync(pathSource)) {
 					}
 					if (stderr) {
 						console.log(`stderr: ${stderr}`);
-	
-						if (fs.existsSync(`../../../contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`)) {
+						if (fs.existsSync(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`)) {
 							provider.query({
 								request_type: 'view_code',
 								account_id: contractId,
@@ -59,13 +61,12 @@ if (fs.existsSync(pathSource)) {
 	
 								const contractCodeView = response.code_base64;
 	
-								const contract = fs.readFileSync(`../../../contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1')
-								fs.readFile(`../../../contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1', (err, data) => {
+								const contract = fs.readFileSync(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1')
+								fs.readFile(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1', (err, data) => {
 									if (contract == atob(contractCodeView)) {
-										fs.writeFileSync(`../../../contract/${contractId}/verify.json`,JSON.stringify({status:'true'}) );
+										fs.writeFileSync(`./contract/${contractId}/verify.json`,JSON.stringify({status:'true'}) );
 									} else {
-										fsExtra.emptyDirSync(`../../../contract/${contractId}/`);
-										fs.writeFileSync(`../../../contract/${contractId}/verify.json`, JSON.stringify({status:'false'}) );
+										clean();
 									}
 	
 								});
@@ -78,20 +79,61 @@ if (fs.existsSync(pathSource)) {
 	
 					console.log(`Output: ${stdout}`);
 				});
-			}else{
-				fsExtra.emptyDirSync(`../../../contract/${contractId}/`);
-				
-				fs.writeFileSync(`../../../contract/${contractId}/verify.json`,JSON.stringify({status:'false'}));
+			}
+			if (fs.existsSync(`./contract/${contractId}/package.json`)) {
+				checkSource+=1;
+				const npmInstall = 'npm install';
+				const build = ' npx near-sdk-js build src/contract.ts build/contract.wasm';
+				const abi = 'npx near-sdk-js build --generateABI src/contract.ts';
+				exec(` ${npmInstall} && ${build} && ${abi}`, {
+					cwd: `./contract/${contractId}/`
+				}, function(error, stdout, stderr) {
+					if (error) {
+						console.log(`error: ${error.message}`);
+						return;
+					}
+					if (stderr) {
+						if (fs.existsSync(`./contract/${contractId}/build/contract.wasm`)) {
+							provider.query({
+								request_type: 'view_code',
+								account_id: contractId,
+								finality: 'final',
+							}).then(function(response) {
+	
+								const contractCodeView = response.code_base64;
+	
+								const contract = fs.readFileSync(`./contract/${contractId}/build/contract.wasm`, 'latin1')
+								fs.readFile(`./contract/${contractId}/build/contract.wasm`, 'latin1', (err, data) => {
+									if (contract == atob(contractCodeView)) {
+										fs.writeFileSync(`./contract/${contractId}/verify.json`,JSON.stringify({status:'true'}) );
+									} else {
+										clean();
+									}
+	
+								});
+	
+							});
+						}
+
+						return;
+					}
+					console.log(`Output: ${stdout}`);
+				});
 			}
 
 		})
 		.catch((error) => {
 			console.log(error);
 		});
-} else {
-	fsExtra.emptyDirSync(`../../../contract/${contractId}/`);
-	fs.writeFileSync(`../../../contract/${contractId}/verify.json`, JSON.stringify({status:'false'}));
+} 
 
+// if(checkSource == 0){
+// 	clean();
+// }
+
+function clean(){
+	fsExtra.emptyDirSync(`./contract/${contractId}/`);
+	fs.writeFileSync(`./contract/${contractId}/verify.json`,JSON.stringify({status:'false'}));
 }
 try {
 
