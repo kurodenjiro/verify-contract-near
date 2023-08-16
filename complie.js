@@ -17,7 +17,7 @@ const contractId = args[0]
 
 let rustup = 'rustup target add wasm32-unknown-unknown';
 let cargo = 'cargo build --all --target wasm32-unknown-unknown --release';
-
+let abi = 'cargo near abi';
 
 const network = {
 	networkId: "testnet",
@@ -40,7 +40,7 @@ if (fs.existsSync(pathSource)) {
 			if (fs.existsSync(`../../../contract/${contractId}/Cargo.toml`)) {
 				const config = toml.parse(fs.readFileSync(`../../../contract/${contractId}/Cargo.toml`, 'utf-8'));
 				const package = config.package;
-				exec(` ${rustup} && ${cargo}`, {
+				exec(` ${rustup} && ${cargo} && ${abi}`, {
 					cwd: `../../../contract/${contractId}/`
 				}, function(error, stdout, stderr) {
 					if (error) {
