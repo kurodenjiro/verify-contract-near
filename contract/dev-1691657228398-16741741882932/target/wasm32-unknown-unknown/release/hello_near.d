@@ -1,1 +1,0 @@
-/home/kurodenjiro/verify-contract-near/contract/dev-1691657228398-16741741882932/target/wasm32-unknown-unknown/release/hello_near.wasm: /home/kurodenjiro/verify-contract-near/contract/dev-1691657228398-16741741882932/src/lib.rs

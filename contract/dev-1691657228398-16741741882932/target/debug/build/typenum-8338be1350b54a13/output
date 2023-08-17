@@ -1,3 +1,0 @@
-cargo:rerun-if-changed=build/main.rs
-cargo:rustc-env=TYPENUM_BUILD_CONSTS=/home/kurodenjiro/verify-contract-near/contract/dev-1691657228398-16741741882932/target/debug/build/typenum-8338be1350b54a13/out/consts.rs
-cargo:rustc-env=TYPENUM_BUILD_OP=/home/kurodenjiro/verify-contract-near/contract/dev-1691657228398-16741741882932/target/debug/build/typenum-8338be1350b54a13/out/op.rs

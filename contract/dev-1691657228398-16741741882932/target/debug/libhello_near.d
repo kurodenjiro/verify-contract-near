@@ -1,1 +1,0 @@
-/home/kurodenjiro/verify-contract-near/contract/dev-1691657228398-16741741882932/target/debug/libhello_near.so: /home/kurodenjiro/verify-contract-near/contract/dev-1691657228398-16741741882932/src/lib.rs
