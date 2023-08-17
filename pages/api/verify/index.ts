@@ -15,14 +15,21 @@ export default function handler(
 	const contractId = _req.query.contractId;
 	const pathSource = `./contract/${contractId}/verify.json`
 	const cargoSource = `./contract/${contractId}/Cargo.toml`
-	
+	const packageSource = `./contract/${contractId}/package.json`
 	if (fs.existsSync(cargoSource)) {
 		const config = toml.parse(fs.readFileSync(cargoSource, 'utf-8'));
 		if (fs.existsSync(`./contract/${contractId}/target/near/${config.package.name}_abi.json`)) {
 			abi =JSON.parse( fs.readFileSync(`./contract/${contractId}/target/near/${config.package.name}_abi.json`, 'utf-8'));
 		}
+
 	}
-	
+	if (fs.existsSync(packageSource)) {
+			//get abi tyescript
+			if (fs.existsSync(`./contract/${contractId}/build/contract-abi.json`)) {
+				abi =JSON.parse( fs.readFileSync(`./contract/${contractId}/build/contract-abi.json`, 'utf-8'));
+			}
+	}
+
 	if (fs.existsSync(pathSource)) {
 		traverseDir(`./contract/${contractId}/src`);
 		const sourceView = []
