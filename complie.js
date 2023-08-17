@@ -42,42 +42,32 @@ if (fs.existsSync(pathSource)) {
 				const rustup = 'rustup target add wasm32-unknown-unknown';
 				const cargo = 'cargo build --all --target wasm32-unknown-unknown --release';
 				const abi = 'cargo near abi';
-				exec(` ${rustup} && ${cargo} && ${abi}`, {
+
+				var stderr = execSync(` ${rustup} && ${cargo} && ${abi}`, {
 					cwd: `./contract/${contractId}/`
-				}, function(error, stdout, stderr) {
-					if (error) {
-						console.log(`error: ${error.message}`);
-						return;
-					}
-					if (stderr) {
-						console.log(`stderr: ${stderr}`);
-						if (fs.existsSync(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`)) {
-							provider.query({
-								request_type: 'view_code',
-								account_id: contractId,
-								finality: 'final',
-							}).then(function(response) {
-	
-								const contractCodeView = response.code_base64;
-								console.log(contractCodeView);
-								const contract = fs.readFileSync(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1')
-								fs.readFile(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1', (err, data) => {
-									if (contract == atob(contractCodeView)) {
-										fs.writeFileSync(`./contract/${contractId}/verify.json`,JSON.stringify({status:'true'}) );
-									} else {
-										clean();
-									}
-	
-								});
-	
-							});
-						}
-	
-						return;
-					}
-	
-					console.log(`Output: ${stdout}`);
 				});
+
+				if (fs.existsSync(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`)) {
+					provider.query({
+						request_type: 'view_code',
+						account_id: contractId,
+						finality: 'final',
+					}).then(function(response) {
+
+						const contractCodeView = response.code_base64;
+						console.log(contractCodeView);
+						const contract = fs.readFileSync(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1')
+						fs.readFile(`./contract/${contractId}/target/wasm32-unknown-unknown/release/${package.name}.wasm`, 'latin1', (err, data) => {
+							if (contract == atob(contractCodeView)) {
+								fs.writeFileSync(`./contract/${contractId}/verify.json`,JSON.stringify({status:'true'}) );
+							} else {
+								clean();
+							}
+
+						});
+
+					});
+				}
 			}
 			if (fs.existsSync(`./contract/${contractId}/package.json`)) {
 				//find build name in code64 code
@@ -85,12 +75,12 @@ if (fs.existsSync(pathSource)) {
 				const build = ' npx near-sdk-js build src/contract.ts build/contract.wasm';
 				const abi = 'npx near-sdk-js build --generateABI src/contract.ts';
 
-				var result = execSync(` ${npmInstall} && ${build} && ${abi} `, {
+				var stderr = execSync(` ${npmInstall} && ${build} && ${abi} `, {
 					cwd: `./contract/${contractId}/`
 				});
 
 
-				console.log(result);
+				console.log(stderr);
 				if (fs.existsSync(`./contract/${contractId}/build/contract.wasm`)) {
 					provider.query({
 						request_type: 'view_code',

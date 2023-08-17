@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.3.0",
+  "metadata": {
+    "name": "hello_near",
+    "version": "1.0.0",
+    "authors": [],
+    "build": {
+      "compiler": "tsc 4.7.4",
+      "builder": "near-sdk-js 1.0.0"
+    }
+  },
+  "body": {
+    "functions": [
+      {
+        "name": "get_greeting",
+        "kind": "view",
+        "modifiers": [],
+        "params": {
+          "serialization_type": "json",
+          "args": []
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "set_greeting",
+        "kind": "call",
+        "modifiers": [],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "message",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "undefined"
+          }
+        }
+      }
+    ],
+    "root_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "string"
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  }
+}
