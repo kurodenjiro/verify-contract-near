@@ -1,0 +1,1130 @@
+{
+  "schema_version": "0.3.0",
+  "metadata": {
+    "name": "thread-score",
+    "version": "0.1.0",
+    "authors": [
+      "thread score <thread-score@gmail.com>"
+    ]
+  },
+  "body": {
+    "functions": [
+      {
+        "name": "active_user_role",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "user_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      {
+        "name": "check_user_role",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "user_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/UserRoles"
+          }
+        }
+      },
+      {
+        "name": "create_space",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "space_name",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/SpaceMetadata"
+          }
+        }
+      },
+      {
+        "name": "create_thread",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "title",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "content",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "media_link",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "init_point",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0
+              }
+            },
+            {
+              "name": "partner_id",
+              "type_schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/AccountId"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "thread_mode",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0
+              }
+            },
+            {
+              "name": "space_name",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "start_time",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "end_time",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "options",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/ThreadMetadata"
+          }
+        }
+      },
+      {
+        "name": "create_user",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "nickname",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "first_name",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "last_name",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "avatar",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "bio",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "end_thread",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "thread_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      {
+        "name": "follow_space",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "space_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_all_spaces",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "from_index",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0
+              }
+            },
+            {
+              "name": "limit",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SpaceMetadata"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_threads_of_space_by_space_id",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "space_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_threads_per_user_own",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "user_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "start",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0
+              }
+            },
+            {
+              "name": "limit",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ThreadMetadata"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_user_metadata",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "from_index",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0
+              }
+            },
+            {
+              "name": "limit",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/JsonUser"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_followed_user_of_space_by_space_id",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "space_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AccountId"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_me",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/ThreadScoreContractMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_owner_id",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/AccountId"
+          }
+        }
+      },
+      {
+        "name": "get_space_metadata_by_space_id",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "space_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/SpaceMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_subscriber_users",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AccountId"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_thread_metadata_by_thread_id",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "thread_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/ThreadMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_thread_status",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "thread_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/ThreadState"
+          }
+        }
+      },
+      {
+        "name": "get_user_metadata_by_user_id",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "user_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/JsonUser"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "init",
+        "kind": "call",
+        "modifiers": [
+          "init"
+        ]
+      },
+      {
+        "name": "set_admin_user_role",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "user_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      {
+        "name": "update_user_information",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "nickname",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "first_name",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "last_name",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "bio",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "avatar",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/JsonUser"
+          }
+        }
+      },
+      {
+        "name": "vote_thread",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "thread_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "choice_number",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0
+              }
+            },
+            {
+              "name": "point",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    ],
+    "root_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "String",
+      "type": "string",
+      "definitions": {
+        "AccountId": {
+          "type": "string"
+        },
+        "JsonUser": {
+          "type": "object",
+          "required": [
+            "followed_space_list",
+            "fraud_list",
+            "fraud_threads_owned",
+            "metadata",
+            "threads_list",
+            "threads_owned",
+            "total_point",
+            "user_id"
+          ],
+          "properties": {
+            "followed_space_list": {
+              "description": "Map of fraud threads associated with the user.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "fraud_list": {
+              "description": "Map of fraud threads associated with the user.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "fraud_threads_owned": {
+              "description": "Total number of fraud threads owned by the user.",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "metadata": {
+              "description": "Detailed metadata about the user, of type `UserMetadata`.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/UserMetadata"
+                }
+              ]
+            },
+            "threads_list": {
+              "description": "Map of threads associated with the user.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "threads_owned": {
+              "description": "Total number of threads owned by the user.",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "total_point": {
+              "description": "User's total points.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "user_id": {
+              "description": "Unique identifier for the user, of type `UserId`.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AccountId"
+                }
+              ]
+            }
+          }
+        },
+        "SpaceMetadata": {
+          "type": "object",
+          "required": [
+            "created_at",
+            "creator_id",
+            "followed_users",
+            "space_id",
+            "space_name",
+            "total_point"
+          ],
+          "properties": {
+            "created_at": {
+              "description": "Date when the thread was created, represented as a timestamp.",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            "creator_id": {
+              "description": "Creator's account ID.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AccountId"
+                }
+              ]
+            },
+            "followed_users": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            "space_id": {
+              "description": "Unique identifier for the Space, of type `SpaceId`.",
+              "type": "string"
+            },
+            "space_name": {
+              "description": "Name of the thread.",
+              "type": "string"
+            },
+            "total_point": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            }
+          }
+        },
+        "ThreadMetadata": {
+          "type": "object",
+          "required": [
+            "choices_count",
+            "choices_map",
+            "choices_rating",
+            "created_at",
+            "creator_id",
+            "end_time",
+            "init_point",
+            "last_id",
+            "space_id",
+            "space_name",
+            "start_time",
+            "thread_id",
+            "thread_mode",
+            "title",
+            "user_votes_map"
+          ],
+          "properties": {
+            "choices_count": {
+              "description": "Number of choices this thread has.",
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0
+            },
+            "choices_map": {
+              "description": "Number of choice this thread has.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "choices_rating": {
+              "description": "Count of all the ratings this thread has received.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0
+              }
+            },
+            "content": {
+              "description": "The Content of this thread",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "created_at": {
+              "description": "Date when the thread was created, represented as a timestamp.",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            "creator_id": {
+              "description": "Creator's account ID.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AccountId"
+                }
+              ]
+            },
+            "end_time": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            "init_point": {
+              "description": "Init point of this thread.",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "last_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "media_link": {
+              "description": "media_link of the thread",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "partner_id": {
+              "description": "Partner's account ID.",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/AccountId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "space_id": {
+              "description": "space_name of this thread",
+              "type": "string"
+            },
+            "space_name": {
+              "description": "space_name of this thread",
+              "type": "string"
+            },
+            "start_time": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            "thread_id": {
+              "description": "Unique identifier for the thread, of type `ThreadId`.",
+              "type": "string"
+            },
+            "thread_mode": {
+              "description": "Mode of thread. 0 -> fraud, 1 -> simple",
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0
+            },
+            "title": {
+              "description": "Name of the thread.",
+              "type": "string"
+            },
+            "user_votes_map": {
+              "description": "Number of choice this thread has.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "integer",
+                    "format": "uint32",
+                    "minimum": 0
+                  }
+                ],
+                "maxItems": 2,
+                "minItems": 2
+              }
+            }
+          }
+        },
+        "ThreadScoreContractMetadata": {
+          "type": "object",
+          "required": [
+            "name",
+            "spec",
+            "symbol"
+          ],
+          "properties": {
+            "base_uri": {
+              "description": "Optional base URI for the ThreadScore contract.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "icon": {
+              "description": "Optional icon for the ThreadScore contract.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "name": {
+              "description": "Name of the ThreadScore contract.",
+              "type": "string"
+            },
+            "reference": {
+              "description": "Optional reference string for the ThreadScore contract.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "spec": {
+              "description": "Specification associated with the ThreadScore contract.",
+              "type": "string"
+            },
+            "symbol": {
+              "description": "Symbol associated with the ThreadScore contract.",
+              "type": "string"
+            }
+          }
+        },
+        "ThreadState": {
+          "type": "string",
+          "enum": [
+            "Closed",
+            "Open",
+            "Upcoming"
+          ]
+        },
+        "UserMetadata": {
+          "type": "object",
+          "required": [
+            "created_at",
+            "nickname",
+            "role",
+            "updated_at",
+            "user_id"
+          ],
+          "properties": {
+            "avatar": {
+              "description": "URL or identifier of the user's avatar image, if provided.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "bio": {
+              "description": "Short biographical note about the user, if provided.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "created_at": {
+              "description": "Unix timestamp (in seconds) when the user account was created.",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            "first_name": {
+              "description": "User's first name, if provided.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "last_name": {
+              "description": "User's last name, if provided.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "nickname": {
+              "description": "Nickname chosen by the user.",
+              "type": "string"
+            },
+            "role": {
+              "description": "User role of the user. Unverified as default",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/UserRoles"
+                }
+              ]
+            },
+            "updated_at": {
+              "description": "Unix timestamp (in seconds) when the user account was last updated.",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            "user_id": {
+              "description": "Unique identifier of the user.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AccountId"
+                }
+              ]
+            }
+          }
+        },
+        "UserRoles": {
+          "type": "string",
+          "enum": [
+            "Unverified",
+            "Verified",
+            "Admin"
+          ]
+        }
+      }
+    }
+  }
+}
